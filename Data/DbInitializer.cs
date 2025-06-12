@@ -18,7 +18,8 @@ namespace LmsApi.Data
                     await roleManager.CreateAsync(new IdentityRole(role));
             }
 
-            var adminEmail = "chuxnwuba@gmail.com";
+            var adminEmail = Environment.GetEnvironmentVariable("ADMIN_EMAIL") ?? "";
+            var adminPassword = Environment.GetEnvironmentVariable("ADMIN_PASSWORD") ?? "";
             var adminUser = await userManager.FindByEmailAsync(adminEmail);
 
             if (adminUser == null)
@@ -31,7 +32,7 @@ namespace LmsApi.Data
                     FullName = "System Admin"
                 };
 
-                var result = await userManager.CreateAsync(user, "Admin@123");
+                var result = await userManager.CreateAsync(user, adminPassword);
 
                 if (result.Succeeded)
                     await userManager.AddToRoleAsync(user, "Admin");
