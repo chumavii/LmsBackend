@@ -76,6 +76,14 @@ builder.Services.AddSwaggerGen(options =>
 });
 builder.Services.AddScoped<TokenService>();
 
+builder.Services.AddCors(options =>
+{
+    options.AddPolicy("AllowedFrontend",
+        policy => policy
+        .WithOrigins("http://localhost:5173")
+        .AllowAnyHeader()
+        .AllowAnyMethod());
+});
 
 //Build App
 var app = builder.Build();
@@ -96,6 +104,8 @@ app.Urls.Add("http://localhost:8080");
 app.Urls.Add("https://localhost:8081");
 
 app.UseHttpsRedirection();
+
+app.UseCors("AllowedFrontend");
 
 app.UseAuthentication();
 
