@@ -65,8 +65,19 @@ namespace LmsApi.Controllers
         [Authorize(Roles = "Admin")]
         public async Task<IActionResult> GetUsers()
         {
-            var users = await _context.Users.ToListAsync();
+            var currentUser = await _userManager.GetUserAsync(User);
+            if (currentUser == null)
+            {
+                return Unauthorized();
+            }
 
+            var currentRoles = await _userManager.GetRolesAsync(currentUser);
+            if (!currentRoles.Contains("Admin"))
+            {
+                return Forbid();
+            }
+
+            var users = await _context.Users.ToListAsync();
             var usersList = new List<UsersDto>();
             foreach (var user in users)
             {
@@ -76,7 +87,7 @@ namespace LmsApi.Controllers
                     Id = user.Id,
                     FullName = user.FullName,
                     Email = user.Email ?? "",
-                    Roles = (List<string>)roles
+                    Roles = roles.ToList()
                 });
             }
             return Ok(usersList);
