@@ -21,6 +21,7 @@
 	<ItemGroup>
     <PackageReference Include="microsoft.aspnetcore.authentication.jwtbearer" Version="9.0.5" />
     <PackageReference Include="microsoft.aspnetcore.identity.entityframeworkcore" Version="9.0.5" />
+    <PackageReference Include="Microsoft.AspNetCore.Mvc.Testing" Version="9.0.6" />
     <PackageReference Include="Microsoft.AspNetCore.OpenApi" Version="9.0.4" />
     <PackageReference Include="microsoft.entityframeworkcore.sqlserver" Version="9.0.5" />
     <PackageReference Include="microsoft.entityframeworkcore.tools" Version="9.0.5">
@@ -29,7 +30,13 @@
     </PackageReference>
     <PackageReference Include="Microsoft.IdentityModel" Version="7.0.0" />
     <PackageReference Include="Microsoft.VisualStudio.Azure.Containers.Tools.Targets" Version="1.21.0" />
+    <PackageReference Include="Moq" Version="4.20.72" />
     <PackageReference Include="Swashbuckle.AspNetCore" Version="8.1.2" />
+    <PackageReference Include="xunit" Version="2.9.3" />
+    <PackageReference Include="xunit.runner.visualstudio" Version="3.1.1">
+      <IncludeAssets>runtime; build; native; contentfiles; analyzers; buildtransitive</IncludeAssets>
+      <PrivateAssets>all</PrivateAssets>
+    </PackageReference>
   </ItemGroup>
 
   <ItemGroup>

@@ -29,7 +29,8 @@ namespace LmsApi.Data
                     UserName = adminEmail,
                     Email = adminEmail,
                     EmailConfirmed = true,
-                    FullName = "System Admin"
+                    FullName = "System Admin",
+                    IsApproved = true
                 };
 
                 var result = await userManager.CreateAsync(user, adminPassword);
