@@ -5,6 +5,7 @@ using LmsApi.Services;
 using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Identity;
 using Microsoft.AspNetCore.Mvc;
+using Microsoft.AspNetCore.SignalR;
 using Microsoft.EntityFrameworkCore;
 
 namespace LmsApi.Controllers
@@ -22,11 +23,16 @@ namespace LmsApi.Controllers
         [HttpPost("register")]
         public async Task<IActionResult> Register([FromBody] RegisterDto model)
         {
+            if (!ModelState.IsValid)
+                return BadRequest();
+
+            var isInstructor = model.Role == "Instructor";
             var user = new ApplicationUser
             {
                 Email = model.Email,
                 UserName = model.Email,
-                FullName = model.FullName
+                FullName = model.FullName,
+                IsApproved = !isInstructor
             };
 
             //Check role is valid using roles in Db
@@ -41,7 +47,7 @@ namespace LmsApi.Controllers
             if (!await _userManager.IsInRoleAsync(user, model.Role))
                 await _userManager.AddToRoleAsync(user, model.Role);
 
-            return Ok("Registration successful");
+            return Ok(new { message = "Registration successful" });
         }
 
         [HttpPost("login")]
