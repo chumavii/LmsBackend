@@ -10,7 +10,6 @@ using Microsoft.IdentityModel.Tokens;
 
 var builder = WebApplication.CreateBuilder(args);
 var jwtSettings = builder.Configuration.GetSection("Jwt") ?? throw new InvalidOperationException("Failed to get Jwt section");
-Console.WriteLine(jwtSettings["Key"]);
 var connString = builder.Configuration.GetConnectionString("DefaultConnection");
 if(String.IsNullOrWhiteSpace(connString)) throw new InvalidOperationException("Connection String is empty") ;
 Console.WriteLine(connString);
