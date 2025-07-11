@@ -10,6 +10,8 @@ using Microsoft.IdentityModel.Tokens;
 
 var builder = WebApplication.CreateBuilder(args);
 var jwtSettings = builder.Configuration.GetSection("Jwt") ?? throw new InvalidOperationException("Failed to get Jwt section");
+var testVariable = Environment.GetEnvironmentVariable("Jwt");
+Console.WriteLine(testVariable);
 Console.WriteLine(jwtSettings["Key"]);
 var key = Encoding.UTF8.GetBytes(jwtSettings["Key"] ?? throw new InvalidOperationException("JWT Key is not configured."));
 
