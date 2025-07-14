@@ -83,7 +83,7 @@ builder.Services.AddCors(options =>
 {
     options.AddPolicy("AllowedFrontend",
         policy => policy
-        .WithOrigins("http://localhost:5173")
+        .WithOrigins("http://localhost:5173", "https://lms-frontend-lime-gamma.vercel.app")
         .AllowAnyHeader()
         .AllowAnyMethod());
 });
