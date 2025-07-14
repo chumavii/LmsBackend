@@ -12,7 +12,6 @@ var builder = WebApplication.CreateBuilder(args);
 var jwtSettings = builder.Configuration.GetSection("Jwt") ?? throw new InvalidOperationException("Failed to get Jwt section");
 var connString = builder.Configuration.GetConnectionString("DefaultConnection");
 if(String.IsNullOrWhiteSpace(connString)) throw new InvalidOperationException("Connection String is empty") ;
-Console.WriteLine(connString);
 var key = Encoding.UTF8.GetBytes(jwtSettings["Key"] ?? throw new InvalidOperationException("JWT Key is not configured."));
 
 
