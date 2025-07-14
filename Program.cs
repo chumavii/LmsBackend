@@ -10,7 +10,8 @@ using Microsoft.IdentityModel.Tokens;
 
 var builder = WebApplication.CreateBuilder(args);
 var jwtSettings = builder.Configuration.GetSection("Jwt") ?? throw new InvalidOperationException("Failed to get Jwt section");
-Console.WriteLine(jwtSettings["Key"]);
+var connString = builder.Configuration.GetConnectionString("DefaultConnection");
+if(String.IsNullOrWhiteSpace(connString)) throw new InvalidOperationException("Connection String is empty") ;
 var key = Encoding.UTF8.GetBytes(jwtSettings["Key"] ?? throw new InvalidOperationException("JWT Key is not configured."));
 
 
@@ -81,7 +82,7 @@ builder.Services.AddCors(options =>
 {
     options.AddPolicy("AllowedFrontend",
         policy => policy
-        .WithOrigins("http://localhost:5173")
+        .WithOrigins("http://localhost:5173", "https://lms-frontend-lime-gamma.vercel.app")
         .AllowAnyHeader()
         .AllowAnyMethod());
 });
@@ -119,6 +120,13 @@ app.UseAuthorization();
 
 app.MapControllers();
 
+//Run migration
+using (var scope = app.Services.CreateScope())
+{
+    var db = scope.ServiceProvider.GetRequiredService<ApplicationDbContext>();
+    db.Database.Migrate(); // <--- Add this line
+    await DbInitializer.SeedRolesAndAdminAsync(scope.ServiceProvider);
+}
 
 //Seed database
 using (var scope = app.Services.CreateScope())
