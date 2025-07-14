@@ -30,8 +30,8 @@ jobs:
         env:
           ConnectionStrings__DefaultConnection: ${{ secrets.POSTGRES_CONNECTION }}
         run: |
-          dotnet ef database update --project ./LmsBackend/LmsApi.csproj \
+          dotnet ef database update --project ./LmsApi.csproj \
             --connection "$ConnectionStrings__DefaultConnection"
 
       - name: Publish project
-        run: dotnet publish ./LmsBackend/LmsApi.csproj -c Release -o ./publish
+        run: dotnet publish ./LmsApi.csproj -c Release -o ./publish
